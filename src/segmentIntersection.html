@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -21,35 +21,35 @@
             const A = {
                 x: 200,
                 y: 150,
-            };
+            }
             const B = {
                 x: 150,
                 y: 250,
-            };
+            }
             const C = {
                 x: 50,
                 y: 100,
-            };
+            }
             const D = {
                 x: 250,
                 y: 200,
-            };
+            }
 
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+            const ctx = canvas.getContext('2d')
             const mouse = {
                 x: 0,
                 y: 0,
-            };
-            let angle = 0;
-            document.addEventListener("mousemove", (e) => {
-                mouse.x = event.x;
-                mouse.y = event.y;
-            });
+            }
+            let angle = 0
+            document.addEventListener('mousemove', (e) => {
+                mouse.x = event.x
+                mouse.y = event.y
+            })
             // let t = 0
             // let ts = 0.005
-            animate();
+            animate()
 
             function animate() {
                 // const M = {
@@ -60,35 +60,35 @@
                 //   x: lerp(C.x, D.x, t),
                 //   y: lerp(C.y, D.y, t),
                 // }
-                A.x = mouse.x + Math.cos(angle) * 50;
-                A.y = mouse.y - Math.sin(angle) * 50;
-                B.x = mouse.x - Math.cos(angle) * 50;
-                B.y = mouse.y + Math.sin(angle) * 50;
-                angle += 0.02;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                A.x = mouse.x + Math.cos(angle) * 50
+                A.y = mouse.y - Math.sin(angle) * 50
+                B.x = mouse.x - Math.cos(angle) * 50
+                B.y = mouse.y + Math.sin(angle) * 50
+                angle += 0.02
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-                ctx.beginPath();
-                ctx.moveTo(A.x, A.y);
-                ctx.lineTo(B.x, B.y);
-                ctx.moveTo(C.x, C.y);
-                ctx.lineTo(D.x, D.y);
-                ctx.stroke();
-                drawDot(A, "A");
-                drawDot(B, "B");
-                drawDot(C, "C");
-                drawDot(D, "D");
+                ctx.beginPath()
+                ctx.moveTo(A.x, A.y)
+                ctx.lineTo(B.x, B.y)
+                ctx.moveTo(C.x, C.y)
+                ctx.lineTo(D.x, D.y)
+                ctx.stroke()
+                drawDot(A, 'A')
+                drawDot(B, 'B')
+                drawDot(C, 'C')
+                drawDot(D, 'D')
                 // drawDot(M, 'M', t > 1 || t < 0)
                 // drawDot(N, 'N', t > 1 || t < 0)
 
-                const I = getIntersection(A, B, C, D);
-                if (I) drawDot(I, "I");
+                const I = getIntersection(A, B, C, D)
+                if (I) drawDot(I, 'I')
 
                 // if (t >= 1 || t < 0) {
                 //   ts = -ts
                 // }
                 // t += ts
 
-                requestAnimationFrame(animate);
+                requestAnimationFrame(animate)
             }
 
             function getIntersection(A, B, C, D) {
@@ -108,43 +108,41 @@
           top = (ay-cy)(dx-cx) - (dy-cy)(ax-cx)
           bottom = (dy-cy)(bx-ax) - (dx-cx)(by-ay)
         */
-                let tTop =
-                    (A.y - C.y) * (D.x - C.x) - (D.y - C.y) * (A.x - C.x);
-                let uTop =
-                    (B.x - A.x) * (A.y - C.y) - (A.x - C.x) * (B.y - A.y);
+                let tTop = (A.y - C.y) * (D.x - C.x) - (D.y - C.y) * (A.x - C.x)
+                let uTop = (B.x - A.x) * (A.y - C.y) - (A.x - C.x) * (B.y - A.y)
                 let bottom =
-                    (D.y - C.y) * (B.x - A.x) - (D.x - C.x) * (B.y - A.y);
+                    (D.y - C.y) * (B.x - A.x) - (D.x - C.x) * (B.y - A.y)
 
                 if (bottom != 0) {
-                    let t = tTop / bottom;
-                    let u = uTop / bottom;
+                    let t = tTop / bottom
+                    let u = uTop / bottom
 
                     if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
                         return {
                             x: lerp(A.x, B.x, t),
                             y: lerp(A.y, B.y, t),
                             offset: t,
-                        };
+                        }
                     }
                 }
-                return null;
+                return null
             }
 
             function drawDot(point, label, isOut) {
-                ctx.beginPath();
-                ctx.fillStyle = isOut ? "red" : "white";
-                ctx.arc(point.x, point.y, 10, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.stroke();
-                ctx.fillStyle = "black";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.font = "bold 14px Arial";
-                ctx.fillText(label, point.x, point.y);
+                ctx.beginPath()
+                ctx.fillStyle = isOut ? 'red' : 'white'
+                ctx.arc(point.x, point.y, 10, 0, Math.PI * 2)
+                ctx.fill()
+                ctx.stroke()
+                ctx.fillStyle = 'black'
+                ctx.textAlign = 'center'
+                ctx.textBaseline = 'middle'
+                ctx.font = 'bold 14px Arial'
+                ctx.fillText(label, point.x, point.y)
             }
 
             function lerp(A, B, t) {
-                return A + (B - A) * t;
+                return A + (B - A) * t
             }
         </script>
     </body>
